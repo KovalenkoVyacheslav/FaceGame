@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="500.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="VIEWS.FXMLStartController">
+   <children>
+      <JFXButton fx:id="btnIce" layoutX="14.0" layoutY="14.0" onAction="#OnActionIceClick" prefHeight="100.0" prefWidth="100.0" />
+      <JFXButton fx:id="btnTea" layoutX="140.0" layoutY="14.0" onAction="#OnActionTeaClick" prefHeight="100.0" prefWidth="100.0" />
+      <JFXButton fx:id="btnCoffe" layoutX="268.0" layoutY="14.0" onAction="#OnActionCoffeClick" prefHeight="100.0" prefWidth="100.0" />
+      <ImageView fx:id="imComputer" fitHeight="100.0" fitWidth="100.0" layoutX="25.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imPlayer" fitHeight="100.0" fitWidth="100.0" layoutX="168.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true" />
+      <Label layoutX="25.0" layoutY="302.0" text="Кількість спроб:">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblCount" layoutX="140.0" layoutY="302.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="25.0" layoutY="334.0" text="Баланс:">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="25.0" layoutY="370.0" text="Кількість клієнтів:">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblBalance" layoutX="140.0" layoutY="334.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblClient" layoutX="140.0" layoutY="370.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="imClientFace" fitHeight="300.0" fitWidth="300.0" layoutX="354.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true" />
+   </children>
+</AnchorPane>
