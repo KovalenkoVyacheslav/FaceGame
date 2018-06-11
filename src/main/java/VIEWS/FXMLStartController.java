@@ -1,6 +1,8 @@
 package VIEWS;
 
 import CONTROLLERS.ChangeVeiew;
+import MODELS.ClientState;
+import MODELS.ClientType;
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -44,6 +46,16 @@ public class FXMLStartController implements Initializable {
     int counter = 3;
     int balance = 0;
     int client = 0;
+
+    ClientType[] clients = {ClientType.Boy, ClientType.Girl, ClientType.Grandfather, ClientType.Grandmother,
+            ClientType.Man, ClientType.Woman};
+    ClientState[] moods = {ClientState.CHEERFUL, ClientState.NEUTRAL, ClientState.SAD, ClientState.ANGRY};
+
+    ClientType currentClient;
+    ClientState currentMood;
+    int moodIndex;
+
+
     @FXML
     void OnActionCoffeClick(ActionEvent event) {
         OpenImages(event);
@@ -69,9 +81,10 @@ public class FXMLStartController implements Initializable {
         btnTea.setBackground(ChangeVeiew.GetBackGround( getClass().getResource("/food/food-03.png")
                 .toExternalForm()));
 
-        lblCount.setText(String.valueOf(counter));
         lblBalance.setText(String.valueOf(balance));
         lblClient.setText(String.valueOf(client));
+
+        GenerateClient();
     }
 
     public void OpenImages(ActionEvent event) {
@@ -91,4 +104,20 @@ public class FXMLStartController implements Initializable {
         imComputer.setImage(ChangeVeiew.GetImageByPath("src/main/resources/food/food-0"+imageComputer+".png"));
 
     }
+
+    public void GenerateClient() {
+        lblCount.setText(String.valueOf(counter));
+
+        currentClient = clients[new Random().nextInt(6)];
+        moodIndex = new Random().nextInt(2) + 1;
+        currentMood = moods[moodIndex];
+
+        String local = "src/main/resources/"+currentClient.toString()+"/"+currentClient.toString()+"-0"+
+                +(currentMood.ordinal()+1)+".png";
+        imClientFace.setImage(ChangeVeiew.GetImageByPath(local));
+    }
 }
+//1-радий
+//2-злий
+//3-нейтральний
+//4-сумний

@@ -4,7 +4,7 @@ public enum ClientType {
     Boy,
     Girl,
     Grandfather,
-    Grandmather,
+    Grandmother,
     Man,
     Woman
 }
