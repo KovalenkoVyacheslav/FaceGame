@@ -7,6 +7,7 @@ import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Control;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Label;
@@ -43,17 +44,17 @@ public class FXMLStartController implements Initializable {
     @FXML
     private ImageView imClientFace;
 
-    int counter = 3;
-    int balance = 0;
-    int client = 0;
+    private int counter;
+    private int balance = 0;
+    private int client = 0;
 
-    ClientType[] clients = {ClientType.Boy, ClientType.Girl, ClientType.Grandfather, ClientType.Grandmother,
+    private ClientType[] clients = {ClientType.Boy, ClientType.Girl, ClientType.Grandfather, ClientType.Grandmother,
             ClientType.Man, ClientType.Woman};
-    ClientState[] moods = {ClientState.CHEERFUL, ClientState.NEUTRAL, ClientState.SAD, ClientState.ANGRY};
+    private ClientState[] moods = {ClientState.CHEERFUL, ClientState.NEUTRAL, ClientState.SAD, ClientState.ANGRY};
 
-    ClientType currentClient;
-    ClientState currentMood;
-    int moodIndex;
+    private ClientType currentClient;
+    private ClientState currentMood;
+    private int moodIndex;
 
 
     @FXML
@@ -87,12 +88,11 @@ public class FXMLStartController implements Initializable {
         GenerateClient();
     }
 
-    public void OpenImages(ActionEvent event) {
+    private void OpenImages(ActionEvent event) {
         String id = ((Control)event.getSource()).getId();
         int imagePlayer = -1;
         int imageComputer = (new Random().nextInt(3) + 1);
 
-        System.out.println(imageComputer);
         if(id.equals(btnIce.getId()))
             imagePlayer = 1;
         else if(id.equals(btnCoffe.getId()))
@@ -103,21 +103,75 @@ public class FXMLStartController implements Initializable {
         imPlayer.setImage(ChangeVeiew.GetImageByPath("src/main/resources/food/food-0"+imagePlayer+".png"));
         imComputer.setImage(ChangeVeiew.GetImageByPath("src/main/resources/food/food-0"+imageComputer+".png"));
 
+        if(imagePlayer == imageComputer) {
+            if (--moodIndex <= -1)
+                moodIndex = 0;
+        }
+        else {
+            if (++moodIndex >= 4)
+                moodIndex = 3;
+        }
+
+        SetCount(--counter);
+        SetClientMood();
+
+        if(counter == 0) {
+            if(currentMood == ClientState.CHEERFUL)
+                balance += 30;
+            else if(currentMood == ClientState.NEUTRAL)
+                balance += 10;
+            else if(currentMood == ClientState.SAD)
+                balance += 0;
+            else if(currentMood == ClientState.ANGRY)
+                balance -= 20;
+            else {
+                CallAlertMessage(Alert.AlertType.ERROR, "Error with Client state");
+            }
+
+
+            if (balance == 100) {
+                CallAlertMessage(Alert.AlertType.INFORMATION, "You win !!!!");
+            }
+            else if(balance == -200) {
+                CallAlertMessage(Alert.AlertType.INFORMATION, "You lost !!!");
+            }
+            else {
+                lblBalance.setText(String.valueOf(balance));
+                lblClient.setText(String.valueOf(++client));
+                GenerateClient();
+            }
+        }
     }
 
-    public void GenerateClient() {
-        lblCount.setText(String.valueOf(counter));
+    private void GenerateClient() {
+        counter = 3;
+        SetCount(counter);
+
+        imPlayer.setImage(null);
+        imComputer.setImage(null);
 
         currentClient = clients[new Random().nextInt(6)];
         moodIndex = new Random().nextInt(2) + 1;
+        SetClientMood();
+    }
+
+    private void SetCount(int c) {
+        lblCount.setText(String.valueOf(c));
+    }
+
+    private void SetClientMood() {
         currentMood = moods[moodIndex];
 
         String local = "src/main/resources/"+currentClient.toString()+"/"+currentClient.toString()+"-0"+
                 +(currentMood.ordinal()+1)+".png";
         imClientFace.setImage(ChangeVeiew.GetImageByPath(local));
     }
+
+    private void CallAlertMessage(Alert.AlertType type, String message) {
+        Alert alert = new Alert(type);
+        alert.setHeaderText(null);
+        alert.setTitle("Game State");
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 }
-//1-радий
-//2-злий
-//3-нейтральний
-//4-сумний
